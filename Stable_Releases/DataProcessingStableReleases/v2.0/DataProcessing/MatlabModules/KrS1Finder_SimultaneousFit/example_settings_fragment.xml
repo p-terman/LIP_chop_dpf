@@ -1,0 +1,33 @@
+
+  <module>
+    <module_type>KrS1Finder</module_type>
+    <module_name>KrS1Finder_SimultaneousFit</module_name>
+    <run_order>17</run_order>
+    <language>matlab</language>
+    <relative_path>MatlabModules/KrS1Finder_SimultaneousFit/KrS1Finder_SimultaneousFit.m</relative_path>
+    <parameters>
+     <S1_pulse_shape>
+          <risetime_samples>1.0</risetime_samples>
+          <falltime_samples>3.8</falltime_samples>
+      </S1_pulse_shape>
+      <s2_selection>
+        <min_xyz_corrected_pulse_area_bot_phe>2000</min_xyz_corrected_pulse_area_bot_phe>
+        <max_xyz_corrected_pulse_area_bot_phe>60000</max_xyz_corrected_pulse_area_bot_phe>   
+        <pmts_ignored>1 26</pmts_ignored>
+      </s2_selection>
+      <s1_selection>
+        <max_roi_samples>150</max_roi_samples>
+        <min_area_phe>10</min_area_phe>
+      </s1_selection>
+      <fit_opts>
+          <TolFun>1e-6</TolFun>
+          <TolX>1e-6</TolX>
+          <MaxFunEvals>1e3</MaxFunEvals>
+          <MaxIter>1e3</MaxIter>
+      </fit_opts>
+      <minFitAmp_phesamp>4</minFitAmp_phesamp>
+      <excluded_channels>1,26</excluded_channels>
+    </parameters>
+    <required_iqs></required_iqs>
+  </module>
+  

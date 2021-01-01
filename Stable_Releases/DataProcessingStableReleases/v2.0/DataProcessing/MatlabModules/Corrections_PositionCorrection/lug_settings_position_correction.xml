@@ -1,0 +1,19 @@
+<iq>
+    <file_table>cor_xy_iq_20130903_Mercury.mat</file_table>
+    <file_table_Mercury>cor_xy_iq_20130903_Mercury.mat</file_table_Mercury>
+    <file_table_TAXY>cor_xy_iq_20130903_TAXY.mat</file_table_TAXY>
+    <global>
+        <filename_prefix>lux10_20130510T1300</filename_prefix>
+        <computed_by>ClaudioSilva</computed_by>
+        <computed_date>20130903</computed_date>
+        <algorithm_name>xycorrections</algorithm_name>
+        <algorithm_version>1.2</algorithm_version>
+        <drift_time>0 to 330 microseconds</drift_time>
+        <source>Kr83</source>
+        <source_id>Kr83</source_id>
+        <iq_type>xy_rec_cor</iq_type>
+        <method_used>ExpandingAroundZero</method_used>
+    </global>
+</iq>
+
+

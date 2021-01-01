@@ -1,0 +1,403 @@
+<data_processing_settings>
+    <!-- Global settings are defined in this section. -->
+    <global>
+        <notes>This is the default data processing settings xml.</notes>
+        <matlab_path>/gpfs/runtime/opt/matlab/R2010b/bin/matlab-threaded</matlab_path>
+        <max_num_pulses>10</max_num_pulses>
+        <ramdisk_path>/dev/shm/</ramdisk_path>
+        <delete_source_evts>0</delete_source_evts>
+        <debug_mode>0</debug_mode>
+        <pmts_off>5 32 93</pmts_off> <!-- Do not use the data in these PMTs. Counting starts at 1  -->
+    </global>
+    
+    <!-- Individual modules are defined below -->
+    <!-- Every module has the signature: (filename_evt, data_path_evt, filename_rq, data_path_rq, data_processing_settings) -->
+    
+    <module>
+        <module_type>InitializeRQFile</module_type>
+        <module_name>InitializeRQFile_Initialize</module_name>
+        <run_order>1</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/InitializeRQFile_Initialize</relative_path>
+        <parameters></parameters>
+        <required_iqs></required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseCalibration</module_type>
+        <module_name>PulseCalibration_BaselineZen</module_name>
+        <run_order>2</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseCalibration_BaselineZen/PulseCalibration_BaselineZen.m</relative_path>
+        <parameters>
+            <flatten_thr>0.0</flatten_thr>
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PODSummer</module_type>
+        <module_name>PODSummer_LUXSumPOD</module_name>
+        <run_order>3</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PODSummer_LUXSumPOD/PODSummer_LUXSumPOD.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseFinder</module_type>
+        <module_name>PulseFinder_TransparentRubiksCube</module_name>
+        <run_order>4</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseFinder_TransparentRubiksCube/PulseFinder_TransparentRubiksCube.m</relative_path>
+        <parameters>
+            <preBoxSamples>50</preBoxSamples>
+            <fullBoxSamples>400</fullBoxSamples>
+            <postBoxSamples>50</postBoxSamples>
+            <edgeFraction>0.01</edgeFraction>
+            <txFraction>0.1</txFraction>
+            <skinnyBoxSamples>10</skinnyBoxSamples>
+            <maximumGap>50</maximumGap>
+            <nLookAhead>1</nLookAhead>
+            <nLookBehind>1</nLookBehind>
+            <noiseThre>0.10</noiseThre>
+            <extendPulse>30</extendPulse>
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseTiming</module_type>
+        <module_name>PulseTiming_HeightTiming</module_name>
+        <run_order>5</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseTiming_HeightTiming</relative_path>
+        <parameters></parameters>
+        <required_iqs></required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_MinimumSet</module_name>
+        <run_order>6</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseQuantities_MinimumSet/PulseQuantities_MinimumSet.m</relative_path>
+        <parameters>
+            <exponential_fit>
+                <TolFun>1e-2</TolFun>
+                <TolX>1e-2</TolX>
+                <MaxFunEvals>100</MaxFunEvals>
+                <MaxIter>100</MaxIter>
+            </exponential_fit>
+            <gaussian_fit>
+                <TolFun>1e-2</TolFun>
+                <TolX>1e-2</TolX>
+                <MaxFunEvals>100</MaxFunEvals>
+                <MaxIter>100</MaxIter>
+            </gaussian_fit>
+            <prompt_fraction>
+                <preBins_samples>2</preBins_samples>
+                <windowBins_samples>10</windowBins_samples>
+            </prompt_fraction>
+            <s2filter>
+                <s1window_samples>50</s1window_samples>
+                <s2window_samples>200</s2window_samples>
+            </s2filter>
+            <saturation_flags>
+                <daq_saturation_threshold_mV>1800</daq_saturation_threshold_mV>
+                <pmt_saturation_2pct_threshold_mV>1600</pmt_saturation_2pct_threshold_mV>
+            </saturation_flags>
+            <thr_phe>0.05</thr_phe>
+	        <preBoxSamples>50</preBoxSamples>
+            <skinnyBoxSamples>10</skinnyBoxSamples>
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1,per_pod_spurious_area:empty_se_response_mean:1.0</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_PhotonCounting</module_name>
+        <run_order>7</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseQuantities_PhotonCounting/PulseQuantities_PhotonCounting.m</relative_path>
+        <parameters>
+            <height_units>mV</height_units>
+            <threshold>1.4</threshold>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_PseudoPromptFraction</module_name>
+        <run_order>8</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseQuantities_PseudoPromptFraction</relative_path>
+        <parameters>
+            <max_n_samples>9</max_n_samples>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseQualityCheck</module_type>
+        <module_name>PulseQualityCheck_CppTemplate</module_name>
+        <run_order>9</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseQualityCheck_CppTemplate</relative_path>
+        <parameters>
+            <negative_v_positive_area_yint>10.0</negative_v_positive_area_yint>
+            <negative_v_positive_area_slope>-1.0</negative_v_positive_area_slope>
+            <negative_area_thresh>-10</negative_area_thresh>
+            <maximum_pulse_samples>40000</maximum_pulse_samples>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseClassifier</module_type>
+        <module_name>PulseClassifier_MultiDimensional</module_name>
+        <run_order>10</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseClassifier_MultiDimensional/PulseClassifier_MultiDimensional.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+    
+    
+    <module>
+        <module_type>S1S2Pairing</module_type>
+        <module_name>S1S2Pairing_Naive</module_name>
+        <run_order>11</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/S1S2Pairing_Naive/S1S2Pairing_Naive.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module> 
+
+    <module>
+        <module_type>Event</module_type>
+        <module_name>Event_Classification</module_name>
+        <run_order>12</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/Event_Classification/Event_Classification.m</relative_path>
+        <parameters>
+            <s2threshold>55.0</s2threshold>
+            <echopercent>0.3</echopercent>
+            <echotime>1000</echotime>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_CorrCentroid</module_name>
+        <run_order>13</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PositionReconstruction_CorrCentroid</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_Hitmap</module_name>
+        <run_order>14</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PositionReconstruction_Hitmap</relative_path>
+        <parameters>
+            <keyType>0</keyType>
+            <chiSq0LH1>1</chiSq0LH1>
+            <hitmapPath>../PositionReconstruction_Hitmap/LUXSimFullMap.bin</hitmapPath>
+            <disabledPMTs>5,32,93</disabledPMTs>
+            <nKey>7</nKey>
+            <nPBombInterpolate>300</nPBombInterpolate>
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1</required_iqs>
+    </module>
+
+    <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_MercuryI</module_name>
+        <run_order>15</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PositionReconstruction_Mercury_v2/PositionReconstruction_MercuryI.m</relative_path>
+        <parameters>
+            <reconstruction_method>lookuptable</reconstruction_method>
+            <algorithm>mercuryi_functional</algorithm>
+            <compute_sd>1</compute_sd>
+            <verbose>0</verbose>
+            <maximum_distance_PMTevent>10</maximum_distance_PMTevent>
+            <min_top_pmts_with_signal>7</min_top_pmts_with_signal>
+            <PMTS_To_Use>1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</PMTS_To_Use>
+            <energy_minimization>1</energy_minimization>
+            <energy_minimum_for_minimization>60000</energy_minimum_for_minimization>
+            <min_num_of_phe>5</min_num_of_phe>
+            <PMT_MinNum>21</PMT_MinNum>
+            <MLM_maxphe>4000</MLM_maxphe>
+            <PhotonCount_ML>4000</PhotonCount_ML>
+            <resolution_phe>2</resolution_phe> 
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1,lrfs:mercuryi_functional:2.03</required_iqs>
+    </module>
+
+    <module>
+        <module_type>Corrections</module_type>
+        <module_name>Corrections_PositionCorrection</module_name>
+        <run_order>16</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/Corrections_PositionCorrection/Corrections_PositionCorrection.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs>xy_rec_cor:XYcorrections:2.0</required_iqs>
+    </module>
+
+    <module>
+        <module_type>Corrections</module_type>
+        <module_name>Corrections_ApplyCorrections</module_name>
+        <run_order>17</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/Corrections_ApplyCorrections/Corrections_ApplyCorrections.m</relative_path>
+        <parameters>
+            <detector_centre_z_ns>1.6E5</detector_centre_z_ns>
+            <allowed_gs>367 387 372 333</allowed_gs>
+        </parameters>
+        <required_iqs>electron_lifetime:LUXkrypCal:2.01,z_dep_s1_correction:LUXkrypCal:2.01,s2_xy_correction:LUXkrypCal:2.01,s1_xy_correction:LUXkrypCal:2.01,s1_xyz_correction:LUXkrypCal:2.01</required_iqs>
+    </module>
+
+
+    <module>
+        <module_type>EnergyReconstruction</module_type>
+        <module_name>EnergyReconstruction_Naive</module_name>
+        <run_order>18</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/EnergyReconstruction_Naive/EnergyReconstruction_Naive.m</relative_path>
+        <parameters>
+            <pde>.0908</pde>
+            <extractioneff>.682</extractioneff>
+            <single_e_area>22.4083300386</single_e_area>
+            <single_e_area_bot>9.35</single_e_area_bot>
+            <NR_conversion_A>0.10571</NR_conversion_A>
+            <NR_conversion_B>1.1481</NR_conversion_B>
+            <W>0.0137</W>
+        </parameters>
+        <required_iqs>single_electron:single_e_s2_mean:3.0</required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_TimeSince</module_name>
+        <run_order>19</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseQuantities_TimeSince/PulseQuantities_TimeSince.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_WaterPmtRQs</module_name>
+        <run_order>20</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseQuantities_WaterPmtRQs</relative_path>
+        <parameters>
+            <max_num_sumpods>10</max_num_sumpods>
+            <daq_saturation_mV>1800</daq_saturation_mV>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>TriggerRQModule</module_type>
+        <module_name>TriggerRQModule</module_name>
+        <run_order>21</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/TriggerModule/TriggerRQModule.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>KrS1Finder</module_type>
+        <module_name>KrS1Finder_SimultaneousFit</module_name>
+        <run_order>22</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/KrS1Finder_SimultaneousFit/KrS1Finder_SimultaneousFit.m</relative_path>
+        <parameters>
+            <S1_pulse_shape>
+                <risetime_samples>1.0</risetime_samples>
+                <falltime_samples>3.8</falltime_samples>
+            </S1_pulse_shape>
+            <s2_selection>
+                <min_xyz_corrected_pulse_area_bot_phe>2000</min_xyz_corrected_pulse_area_bot_phe>
+                <max_xyz_corrected_pulse_area_bot_phe>60000</max_xyz_corrected_pulse_area_bot_phe>   
+                <pmts_ignored>1 26</pmts_ignored>
+	    </s2_selection>
+            <s1_selection>
+                <max_roi_samples>150</max_roi_samples>
+                <min_area_phe>10</min_area_phe>
+            </s1_selection>
+      	    <fit_opts>
+                <TolFun>1e-6</TolFun>
+                <TolX>1e-6</TolX>
+                <MaxFunEvals>1e3</MaxFunEvals>
+                <MaxIter>1e3</MaxIter>
+            </fit_opts>
+            <minFitAmp_phesamp>4</minFitAmp_phesamp>
+            <excluded_channels>1,26</excluded_channels>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+  
+    <module>
+        <module_type>AdditionalFileFormat</module_type>
+        <module_name>AdditionalFileFormat_SaveMatFile</module_name>
+        <run_order>23</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/AdditionalFileFormat_SaveMatFile/AdditionalFileFormat_SaveMatFile.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>AdditionalFileFormat</module_type>
+        <module_name>AdditionalFileFormat_SaveRootFile</module_name>
+        <run_order>24</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/rq_to_rqroot</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module> 
+
+    <module>
+        <module_type>AdditionalFileFormat</module_type>
+        <module_name>AdditionalFileFormat_SaveHDF5</module_name>
+        <run_order>25</run_order>
+        <language>python</language>
+        <relative_path>PythonModules/AdditionalFileFormat_SaveHDF5/AdditionalFileFormat_SaveHDF5_PyMod.py</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>CleanUp</module_type>
+        <module_name>CleanUp_Default</module_name>
+        <run_order>26</run_order>
+        <language>python</language>
+        <relative_path>PythonModules/CleanUp_Default/CleanUp_DefaultPyMod.py</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+</data_processing_settings>

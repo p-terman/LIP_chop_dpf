@@ -1,0 +1,18 @@
+<data_processing_settings>
+    <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_Hitmap</module_name>
+        <run_order>9</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PositionReconstruction_Hitmap</relative_path>
+        <parameters>
+	<keyType>0</keyType>
+	<chiSq0LH1>1</chiSq0LH1>
+	<hitmapPath>../PositionReconstruction_Hitmap/LUXSimFullMap.bin</hitmapPath>
+	<disabledPMTs>5,32,93</disabledPMTs>
+	<nKey>7</nKey>	
+	<nPBombInterpolate>300</nPBombInterpolate>
+	</parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+</data_processing_settings>

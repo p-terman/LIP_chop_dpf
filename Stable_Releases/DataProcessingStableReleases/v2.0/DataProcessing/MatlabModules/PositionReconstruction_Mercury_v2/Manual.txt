@@ -1,0 +1,112 @@
+There are two xml files that are needed to reconstruct the data. The
+reconstruction settings is part of the data processing  settings
+file and deals with the different settings that can be applied to the
+reconstruction of the data. The second file is an IQ settings xml
+script and stores all the information related with the result and
+calculation of the light reponse functions - LRF thereafter.
+
+Chapter I : ON THE DATA PROCESSING SETTINGS FILE
+
+The current settings of the data processing files are the following
+
+a) verbosity
+<verbose>int</verbose> : sets the correct verbosity
+1: Just print warning and errors
+2: Print the reconstructed positions for each event
+3: Not implemented yet but it will print everything that I can remember
+
+b) equalization
+<equalization>1</equalization>
+
+0: The equalization will not be applied (not Implemented yet)
+1: The top array will be equalized using the variable lug_iqs_xml
+
+c) estimative of the initial position 
+<getapproximatedposition>GessTri</getapproximatedposition>
+
+To work properly mercury requires a rough estimative of the initial
+position of the event. The options available for this field are
+
+GessTri
+
+d) Minimization method
+<minimization_method>fminunc</minimization_method>
+Several minimization methods using different matlab functions can be
+used. 
+
+fminunc:  unconstrained nonlinear optimization with derivative calculation.
+fminsearch: unconstrained nonlinear optimization.
+fmincon: constrained nonlinear optimization.
+
+e) Reconstruction method
+<reconstruction_method>lookuptable</reconstruction_method>
+This field needs some improvement. Basically, we have two different
+manners to describe the LRF, - the functional method and the spline
+method. However the functional method is splitted in two because the
+old method was too slow. Right now we have the following  
+functional: It computes the expected response for each PMT and for
+each event and minimization iteraction. It is very slow and should be
+using for debugging or if you need to use a computer as a heater.
+lookuptable: This selection still uses the functional method to
+describe the splines but the functions are mapped into a
+look-up-table.
+splines: splines are used to describe the LRFs.
+
+f) standard deviation
+<compute_sd>1</compute_sd>
+The computation of the standard deviation using the chi2
+curves. Please take into account that this computation will reduce the
+speed of the reconstruction.
+The following options can be selected:
+0: the standard deviation are calculated
+1: the standard deviations are not calculated
+
+g: cut the zero photons data
+<cutzerophotonsdata>1</cutzerophotonsdata>
+Which means:
+1: The photomultipliers with no signal observed are not used in the reconstruction
+0: The selection of the PMTs that are used in the reconstruction does
+not take into consideration the existence of signal. NOT WELL TESTED
+
+h: maximum distance between the PMT and event
+<maximum_distance_PMTevent>20</maximum_distance_PMTevent>
+This takes into consideration the distance between the centre of the
+PMT and the position of the event using a rougher method, excluding
+the PMTs that are too far from the event and have no impact or a
+negative impact in the reconstruction. The current default distance
+used is 20 cm and it seems to be the optimal distance for our detector.
+
+i: minimum number of PMTs with signal
+<min_top_pmts_with_signal>7</min_top_pmts_with_signal>
+This number corresponds to the minimum number of top PMTs which
+observed any signal. A lower number is not recomendable because the
+current rough computation of the position of the event does not work
+in these conditions.
+
+f: border minimization
+<border_minimization>Multiple</border_minimization>
+The events near the walls are difficult to reconstruct. The rough
+estimative of the position of the event is usually bad and on the top
+of that the chi square function can exhibit more than one minima in
+this region. To avoid this undesirable feature I have created a
+multiple minimization method that takes into consideration several
+positions of the event. This option can be turned on/off by the user
+and as usual it slows the reconstruction. 
+0: Single munimization
+1: Multiple minimization
+
+g: multiple minimization start radius
+<multiple_minimization_start_point>20</multiple_minimization_start_point>
+Above this point the multiple minimization method is applied.
+
+
+h: Plot positions
+<plot_positions>Iterative</plot_positions>
+The user has the option to plot the position of the reconstructed
+event during the reconstruction process. The two options are
+Iterative:
+NonIterative
+
+i: PMTs selected
+This is a vector with 122 elements which indicates which PMTs are
+going to be used in the reconstruction.

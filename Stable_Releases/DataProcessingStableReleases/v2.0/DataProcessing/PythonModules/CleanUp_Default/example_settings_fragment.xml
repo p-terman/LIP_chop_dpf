@@ -1,0 +1,11 @@
+<module>
+        <module_type>CleanUp</module_type>
+        <module_name>CleanUp_Default</module_name>
+        <run_order>11</run_order>
+        <language>python</language>
+        <relative_path>PythonModules/CleanUp_Default/CleanUp_DefaultPyMod.py</relative_path>
+        <parameters>
+		<compress_files>1</compress_files>
+        </parameters>
+        <required_iqs></required_iqs>
+</module>

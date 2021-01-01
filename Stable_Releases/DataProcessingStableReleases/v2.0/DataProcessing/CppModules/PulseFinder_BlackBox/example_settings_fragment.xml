@@ -1,0 +1,35 @@
+<data_processing_settings>
+	<module>
+    <module_type>PulseFinder</module_type>
+    <module_name>PulseFinder_BlackBox</module_name>
+    <run_order>4</run_order>
+    <language>cpp</language>
+    <relative_path>CppModules/bin/PulseFinder_BlackBox</relative_path>
+    <parameters>
+      <kz_width>10</kz_width>
+      <kz_iterations>2</kz_iterations>
+      <max_seperation>8</max_seperation>
+      <max_thres>0.15</max_thres>
+      <min_max_ratio>0.6</min_max_ratio>
+      <nsigmas>3.0</nsigmas>
+      <se_area_mean_phe>24.47</se_area_mean_phe>
+      <se_area_sigma_phe>5.799</se_area_sigma_phe>
+      <se_width_mean_samples>44.23</se_width_mean_samples>
+      <se_width_sigma_samples>11.81</se_width_sigma_samples>
+      <dis_inv_ratio>0.01</dis_inv_ratio>
+      <dis_scale>1.0</dis_scale>
+      <dis_offset>1.2</dis_offset>
+      <keep_wide_pulses>2</keep_wide_pulses>
+      <width_cut_samples>40</width_cut_samples>
+      <coincidence>2</coincidence>
+      <coin_area_thres>0.25</coin_area_thres>
+      <coin_height_thres>0.1</coin_height_thres>
+      <group_adj_sumpod_samples>50</group_adj_sumpod_samples>
+      <event_rq>
+        <threshold>15</threshold>
+        <coincidence>2</coincidence>
+      </event_rq>
+    </parameters>
+    <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

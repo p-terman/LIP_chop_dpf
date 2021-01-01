@@ -1,0 +1,20 @@
+<data_processing_settings>
+	<module>
+    <module_type>PulseClassifier</module_type>
+    <module_name>PulseClassifier_PHET</module_name>
+    <run_order>6</run_order>
+    <language>cpp</language>
+    <relative_path>CppModules/bin/PulseClassifier_PHET</relative_path>
+    <parameters>
+    	<ppwid_cut>200</ppwid_cut>
+    	<pmt_coincidence_cut>2</pmt_coincidence_cut>
+    	<s1_threshold_phe_cut>1.0</s1_threshold_phe_cut>
+    	<s2_threshold_phe_cut>50.0</s2_threshold_phe_cut>
+    	<sp_threshold_phe_cut>2.0</sp_threshold_phe_cut>
+    	<s1_width_cut>10.0</s1_width_cut>
+    	<peak_area_coincidence_cut>0.25</peak_area_coincidence_cut>
+    	<peak_height_coincidence_cut>0.1</peak_height_coincidence_cut>
+    </parameters>
+    <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

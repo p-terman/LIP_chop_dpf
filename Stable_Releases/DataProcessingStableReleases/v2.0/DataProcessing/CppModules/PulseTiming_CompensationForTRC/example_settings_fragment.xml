@@ -1,0 +1,16 @@
+<data_processing_settings>
+  <module>
+      <module_type>PulseTiming</module_type>
+      <module_name>PulseTiming_CompensationForTRC</module_name>
+      <run_order>5</run_order>
+      <language>cpp</language>
+      <relative_path>CppModules/bin/PulseTiming_CompensationForTRC</relative_path>
+      <parameters>
+            <txFraction>0.1</txFraction>
+            <skinnyBoxSamples>10</skinnyBoxSamples>
+            <noiseThre>0.15</noiseThre>
+            <changePulseStartEnd>1</changePulseStartEnd>
+        </parameters>
+      <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

@@ -1,0 +1,33 @@
+
+<data_processing_settings>
+    <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_MercuryI</module_name>
+        <run_order>8</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PositionReconstruction_MercuryI/PositionReconstruction_MercuryI.m</relative_path>
+        <parameters>
+	  <reconstruction_method>lookuptable</reconstruction_method>
+	  <algorithm>mercuryi_functional</algorithm>
+	  <compute_sd>1</compute_sd>
+	  <verbose>0</verbose>
+	  <maximum_distance_PMTevent>10</maximum_distance_PMTevent>
+	  <min_top_pmts_with_signal>7</min_top_pmts_with_signal>
+	  <PMTS_To_Use>1  1  1  1  0  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  0  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  0  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1  1</PMTS_To_Use>
+	  <energy_minimization>1</energy_minimization>
+	  <energy_minimum_for_minimization>60000</energy_minimum_for_minimization>
+	  <saturated_pmt_phe_limit></saturated_pmt_phe_limit>
+	  <min_num_of_phe>10</min_num_of_phe>
+	  <PMT_MinNum>21</PMT_MinNum>
+	  <MLM_maxphe>4000</MLM_maxphe>
+	  <PhotonCount_ML>4000</PhotonCount_ML>
+	  <resolution_phe>2</resolution_phe> 
+        </parameters>
+        <required_iqs>pmt_gains:vuv_gains:1.1,lrfs:mercuryi_functional:2.03</required_iqs>
+    </module>
+</data_processing_settings>
+
+
+
+
+

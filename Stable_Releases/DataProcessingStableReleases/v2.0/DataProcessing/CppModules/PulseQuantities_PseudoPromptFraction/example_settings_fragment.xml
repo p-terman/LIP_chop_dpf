@@ -1,0 +1,13 @@
+<data_processing_settings>
+  <module>
+    <module_type>PulseQuantities</module_type>
+    <module_name>PulseQuantities_PseudoPromptFraction</module_name>
+    <run_order>5</run_order>
+    <language>cpp</language>
+    <relative_path>CppModules/bin/PulseQuantities_PseudoPromptFraction</relative_path>
+    <parameters>
+        <max_n_samples>9</max_n_samples>
+    </parameters>
+    <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

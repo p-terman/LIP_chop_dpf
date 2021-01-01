@@ -1,0 +1,68 @@
+#!/bin/bash 
+#
+#
+# New job submission scheme for CCV queue.
+# Only modify this file, there is no need to modify the .m file.
+#
+# 20111118 - JRV - Created
+# 20111209 - JRV - Now uses the LUG Complete Analysis Record Table
+
+################################################################
+# YOU SHOULD CHANGE THIS FOR YOUR SPECIFIC ANALYSIS SUBMISSION #
+# There is no more need to modify or duplicate run_analysis.m  #   
+################################################################
+
+# name your job to help you and others identify it in the queue
+#PBS -N lux10_20121219T1601
+
+# estimate the time needed by your job, as HH:MM:SS
+#PBS -l walltime=04:00:00
+
+# specify how many NODES to run on, example: 0-3
+#PBS -t 0-3
+
+# comment this out to use normal priority 
+# set the priority to condo
+#PBS -l qos=rgaitske
+
+# request 1 node (implicitly 8 processors)  -- only change this to change PROCESSORS PER NODE
+#PBS -l nodes=1:ppn=4
+#PBS -l pmem=4G
+
+# [optional] combine stdout and stderr streams into one output file
+#PBS -j oe
+
+# [optional] specify a different output file than the default JobName.out
+#PBS -o /users/jverbus/log_files/
+
+# set the filename prefix
+FILENAME_PREFIX='lux10_20121219T1601'
+
+# set the number of cores (NODES * ppn): e.g. NODES = 0-3 & ppn=4 => NUM_CORES=16
+NUM_CORES=16
+
+#######################################################
+# YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS POINT #
+#######################################################
+
+
+# This is the command submitted to each compute node.
+# Each compute node knows its unique ID in the job array and 
+# the filename_prefix, number of cores in the job, and the 
+# analysis record id in the complete analysis record lug table.
+# This information is passed into the matlab script 
+# "auto_run_analysis" which finds the .evt files it is responsible
+# for and runs the LUXFirstPass on each of them.
+pbsdsh bash -l -c '''
+	cd $PBS_O_WORKDIR
+	export PATH=$PBS_O_PATH
+	export ID=$((PBS_NUM_PPN*PBS_ARRAYID+PBS_VNODENUM));
+	echo "Starting job $ID on $HOSTNAME (CPU $PBS_VNODENUM)";
+	
+	export FILENAME_PREFIX=`echo -e "$0"`
+	export NUM_CORES=`echo -e "$1"`
+
+	python /users/jverbus/20121209_DataProcessingDemonstration/LUXcode/Trunk/DataProcessing/Examples/run_dp_framework_oscar.py $FILENAME_PREFIX $ID $NUM_CORES
+''' "$FILENAME_PREFIX" "$NUM_CORES"
+	
+

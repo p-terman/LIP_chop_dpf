@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if [ ! -n "$1" ]
+then
+    echo Figure out how to use this and get back to me
+    exit
+fi
+
+g++ `root-config --cflags --glibs` crazy_class_builder.c -o crazy_class_builder
+echo Class builder is finished compiling
+crazy_class_builder $1
+echo Classes are built
+make.sh
+echo All files are made
+read_rq1_built $1

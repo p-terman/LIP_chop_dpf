@@ -1,0 +1,11 @@
+<data_processing_settings>
+  <module>
+      <module_type>PulseTiming</module_type>
+      <module_name>PulseTiming_HeightTiming</module_name>
+      <run_order>5</run_order>
+      <language>cpp</language>
+      <relative_path>CppModules/bin/PulseTiming_HeightTiming</relative_path>
+      <parameters></parameters>
+      <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

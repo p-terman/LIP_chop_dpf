@@ -1,0 +1,15 @@
+<data_processing_settings>
+    
+	<module>
+        <module_type>TriggerRQModule</module_type>
+        <module_name>TriggerRQModule</module_name>
+        <run_order>17</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/TriggerModule/TriggerRQModule.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+	
+    	
+</data_processing_settings>

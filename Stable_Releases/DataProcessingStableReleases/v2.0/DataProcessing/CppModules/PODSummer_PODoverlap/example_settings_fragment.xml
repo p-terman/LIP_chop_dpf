@@ -1,0 +1,11 @@
+<data_processing_settings>
+  <module>
+        <module_type>PODSummer</module_type>
+        <module_name>PODSummer_PODoverlap</module_name>
+        <run_order>3</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PODSummer_PODoverlap</relative_path>
+        <parameters></parameters>
+        <required_iqs></required_iqs>
+    </module>
+</data_processing_settings>

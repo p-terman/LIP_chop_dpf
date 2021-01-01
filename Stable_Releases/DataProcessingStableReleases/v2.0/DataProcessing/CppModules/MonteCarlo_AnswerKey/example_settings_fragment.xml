@@ -1,0 +1,12 @@
+<data_processing_settings>
+  <module>
+    <module_type>MonteCarlo</module_type>
+    <module_name>MonteCarlo_AnswerKey</module_name>
+    <run_order>2</run_order>
+    <language>cpp</language>
+    <relative_path>CppModules/bin/MonteCarlo_AnswerKey</relative_path>
+    <parameters>
+    </parameters>
+    <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

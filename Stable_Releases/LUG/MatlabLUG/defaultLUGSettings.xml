@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<! Comments start with !'s>
+<! default settings for LUXAnalysisMaster>
+<portnumber>3306</portnumber>
+
+<! Location of the dB and login info!>
+<hostname>localhost:3306</hostname>
+<username>luxanalysis</username>
+<password>bigdet</password>
+<php_url>http://gatsby.het.brown.edu/lug01/LUG_query_matlab.php</php_url>

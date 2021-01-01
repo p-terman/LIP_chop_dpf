@@ -1,0 +1,13 @@
+    <module>
+        <module_type>Event</module_type>
+        <module_name>Event_Classification</module_name>
+        <run_order>12</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/Event_Classification/Event_Classification.m</relative_path>
+        <parameters>
+            <s2threshold>55.0</s2threshold>
+            <echopercent>0.3</echopercent>
+            <echotime>1000</echotime>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>

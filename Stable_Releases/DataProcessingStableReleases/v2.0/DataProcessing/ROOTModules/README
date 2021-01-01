@@ -1,0 +1,21 @@
+This Livetime module is a basic module people can use to test if they can run
+the data processing framework. It does the following:
+
+1) Access all of the .evt files in the specified directory in
+      run_dp_framework_matlabless.py.
+2) Read each .evt and calculate the livetime.
+3) Print to screen the livetime. This output is snagged by the framework
+      so you won't actually see it.
+4) Write a ".rq" file. This file is nothing but the livetime in ascii.
+
+
+The livetime module can be compiled with "make" in LivetimeModule folder. It
+can be run standalone with a command like:
+
+
+
+./Livetime <evt folder> <a single evt file> <rq folder> <a single rq file>
+
+E.G.
+
+./Livetime /home/mwoods/evts/lux10_20120000T0000/ lux10_20120000T0000_f0000001.evt /home/mwoods/rqs/lux10_20120000T0000/ lux10_20120000T0000_f0000001.rq

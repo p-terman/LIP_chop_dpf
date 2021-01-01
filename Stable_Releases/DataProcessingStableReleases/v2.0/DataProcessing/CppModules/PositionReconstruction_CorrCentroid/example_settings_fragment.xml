@@ -1,0 +1,12 @@
+<data_processing_settings>
+  <module>
+        <module_type>PositionReconstruction</module_type>
+        <module_name>PositionReconstruction_CorrCentroid</module_name>
+        <run_order>5</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PositionReconstruction_CorrCentroid</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+</data_processing_settings>

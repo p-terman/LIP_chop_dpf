@@ -1,0 +1,74 @@
+#!/bin/bash 
+##SBATCH -J lux10_20130104T0933 
+#SBATCH --job-name=lux10_20130104T0933
+#SBATCH --mail-user=james_verbus@brown.edu
+#SBATCH --ntasks=8
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=07:00:00
+##SBATCH -p sandy-batch
+#SBATCH --qos=priority
+#SBATCH --mem-per-cpu=4G
+#SARRAY --range=1-32
+#
+#
+# New job submission scheme for CCV queue.
+# Only modify this file, there is no need to modify the .m file.
+#
+# 20111118 - JRV - Created
+# 20111209 - JRV - Now uses the LUG Complete Analysis Record Table
+# 20120117 - JRV - This file is now produced by create_submit_batch_job.py.
+#                  Do not edit it yourself!
+
+################################################################
+# YOU SHOULD NOT EDIT THIS FILE AT ALL!!!                      #
+# There is no more need to modify or duplicate run_analysis.m  #   
+################################################################
+
+# name your job to help you and others identify it in the queue
+
+# estimate the time needed by your job, as HH:MM:SS
+
+# specify how many NODES to run on
+
+## set priority to condo
+##PBS -l qos=rgaitske
+
+# request 1 node (implicitly 8 processors)  -- only change this to change PROCESSORS PER NODE
+
+# [optional] combine stdout and stderr streams into one output file
+
+# [optional] specify a different output file than the default JobName.out
+
+# set the filename prefix
+FILENAME_PREFIX='lux10_20130104T0933'
+
+# set the number of cores (NODES * ppn): e.g. NODES = 0-3 & ppn=4 =>
+NUM_CORES=256
+
+# path to analysis_settings_xml
+#ANA_SET_XML='/users/jverbus/testing/analysis_settings_2mVns.xml'
+#FP_SET_XML='/users/jverbus/LUXCode/Trunk/FirstPassAnalysis/MatlabFirstPass/analysis_settings.xml'
+#ANA_SET_XML='/users/jverbus/analysis_settings_files/analysis_settings_no_fits.xml'
+#SP_SET_XML='/users/jverbus/LUXCode/Trunk/SecondPassAnalysis/MatlabSecondPass/analysis_second_pass_matlab.xml'
+
+#######################################################
+# YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS POINT #
+#######################################################
+
+
+#sleep $[ RANDOM%60 ] # sleep for a random amount of time from 0-59 s -- this hopefully helps prevent duplicate lug entries
+#FP_ID=`/users/jverbus/run_prepare_first_pass.tcsh $FILENAME_PREFIX $FP_SET_XML`
+#SP_ID=`/users/jverbus/run_prepare_second_pass.tcsh $FILENAME_PREFIX $FP_ID $SP_SET_XML`
+#FP_ID=1686
+#SP_ID=502
+
+srun bash -l -c '''
+    cd $PWD
+    export ID=$((SLURM_TASKS_PER_NODE*(SLURM_ARRAYID-1)+SLURM_PROCID));
+    echo "Starting job $ID on $HOSTNAME (CPU $SLURM_PROCID)";
+                                
+    export FILENAME_PREFIX=`echo -e "$0"`
+    export NUM_CORES=`echo -e "$1"`
+
+	python /users/jverbus/20121209_DataProcessingDemonstration/LUXcode/Trunk/DataProcessing/Examples/run_dp_framework_oscar.py $FILENAME_PREFIX $ID $NUM_CORES
+''' "$FILENAME_PREFIX" "$NUM_CORES"

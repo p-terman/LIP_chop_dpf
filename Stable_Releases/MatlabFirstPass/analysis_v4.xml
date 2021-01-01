@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<analysis_filename>LUXcode/FirstPassAnalysis/MatlabFirstPass/LUXFirstPass.m</analysis_filename>
+<!--<analysis_version>4.0</analysis_version> do we want this at all? discuss. -->
+<svn_revision_number>000</svn_revision_number>
+<!--<rq1_xml_version>1</rq1_xml_version> discuss...-->
+<notes>Numbering: PMTs start at 1. Channels start at 0. Always.</notes>
+<!--<gains>4e6</gains> get this from LUG-->
+<FullScale>2</FullScale>
+<bl_points>32</bl_points>
+<nb_evts_per_sequence>1000</nb_evts_per_sequence>
+<nb_evts_per_file>1000</nb_evts_per_file>
+<drift_length>2500</drift_length>
+
+<pmts>[1 2 3 4]</pmts>
+<ch_map>[0 1 2 3]</ch_map>
+<mVns_per_phe>[0 0 0 0]</mVns_per_phe>
+
+<fs>100e6</fs>
+<centerT>37.5</centerT>
+
+<s1_max_rt>0.15</s1_max_rt>
+<s1_max_wid>0.30</s1_max_wid>
+<s1_min_h>0.50</s1_min_h>
+<s1_min_coin>1</s1_min_coin>
+
+<s2_min_rt>0.20</s2_min_rt>
+<s2_min_wid>0.30</s2_min_wid>
+<s2_min_h>2.0</s2_min_h>
+<s2_min_area>10</s2_min_area>
+<s2_frac_multiple_scatter>0.05</s2_frac_multiple_scatter>
+<s2window>200</s2window>
+<s1window>30</s1window>
+<x50>1.25</x50>
+<s2threshold>50</s2threshold> <!-- 1phe - 1.64(.37) for 95% single sided -->
+
+<fp_prebins>5</fp_prebins>
+<fp_windowbins>4</fp_windowbins>
+<fp_postbins>30</fp_postbins>
+
+<thr_pikpeeks>0.05</thr_pikpeeks>
+<s1h_per_chan>0.05</s1h_per_chan>
+
+<trig_window_hwidth>3.00</trig_window_hwidth>
+<valid_s1_t>0.500</valid_s1_t>
+
+<max_nb_s2s>3</max_nb_s2s>
+<max_nb_pulses>5</max_nb_pulses>
+<Nbefore>1</Nbefore>
+
+
+<!-- NOTE: THE FOLLOWING IS DEPRECATED AS OF LUX 0.1 BUT MIGHT COME BACK FOR LUX 1.0 -->
+<reefer_input>
+<!-- These are settings with analysis basline thresholds in ADC bins only -->
+
+
+ <!--
+ xml = xml2cell_load(fname); 
+ anal_base_th = []; 
+ for ii=1:length( xml.reefer_input{1}.anal_base_th{1}.ch_set ) 
+ anal_base_th( 1 + xml.reefer_input{1}.anal_base_th{1}.ch_set{ii}.adc_ch{1}.num{1} ) = .. 
+ ( xml.reefer_input{1}.anal_base_th{1}.ch_set{ii}.threshold{1}.num{1} ); 
+ end 
+ 
+ -->
+
+	<anal_base_th>
+		<ch_set>	<adc_ch>  0 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  1 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  2 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  3 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  4 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  5 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  6 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  7 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  8 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch>  9 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 10 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 11 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 12 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 13 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 14 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 15 </adc_ch>	<threshold> 11 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 16 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 17 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 18 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 19 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 20 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 21 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 22 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 23 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 24 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 25 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 26 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 27 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 28 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 29 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 30 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 31 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 32 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 33 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 34 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 35 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 36 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 37 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 38 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 39 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 40 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 41 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 42 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 43 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 44 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 45 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 46 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 47 </adc_ch>	<threshold> 23 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 48 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 49 </adc_ch>	<threshold> 16 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 50 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 51 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 52 </adc_ch>	<threshold> 12 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 53 </adc_ch>	<threshold> 31 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 54 </adc_ch>	<threshold> 17 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 55 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 56 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 57 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 58 </adc_ch>	<threshold> 18 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 59 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 60 </adc_ch>	<threshold> 16 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 61 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 62 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 63 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 64 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 65 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 66 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 67 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 68 </adc_ch>	<threshold> 13 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 69 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 70 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 71 </adc_ch>	<threshold> 18 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 72 </adc_ch>	<threshold> 18 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 73 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 74 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 75 </adc_ch>	<threshold> 16 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 76 </adc_ch>	<threshold> 16 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 77 </adc_ch>	<threshold> 17 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 78 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 79 </adc_ch>	<threshold> 20 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 80 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 81 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 82 </adc_ch>	<threshold> 30 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 83 </adc_ch>	<threshold> 14 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 84 </adc_ch>	<threshold> 17 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 85 </adc_ch>	<threshold> 15 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 86 </adc_ch>	<threshold> 24 </threshold> <!-- ADC bins -->	</ch_set>
+		<ch_set>	<adc_ch> 87 </adc_ch>	<threshold> 22 </threshold> <!-- ADC bins -->	</ch_set>
+	</anal_base_th>
+</reefer_input>

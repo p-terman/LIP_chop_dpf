@@ -1,0 +1,92 @@
+#!/bin/bash
+#
+# New job submission scheme for CCV queue.
+# Only modify this file, there is no need to modify the .m file.
+#
+# 20130114 - JRV - Modified from submit_batch_job to run on new Oscar cluster using SLURM
+
+################################################################
+# YOU SHOULD NOT EDIT THIS FILE AT ALL!!!                      #
+# There is no more need to modify or duplicate run_analysis.m  #
+################################################################
+
+# name your job to help you and others identify it in the queue
+#SBATCH --job-name=SRP
+
+# set mail address
+#SBATCH --mail-user=terman.paul@yahoo.com
+#SBATCH --mail-type=END
+
+# estimate the time needed by your job, as HH:MM:SS
+#SBATCH --time=16:00:00
+
+# set which partition
+##SBATCH --partition=sandy-batch
+##SBATCH --partition=nehalem-batch
+##SBATCH --partition=batch
+#SBATCH --partition=batch
+
+## set priority
+##SBATCH --qos=pri-pterman
+##SBATCH --qos=rgaitske-sb-condo
+
+# set cores per job
+#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
+
+# set memory per cpu
+#SBATCH --mem-per-cpu=6G
+
+# constrain to intel nodes only
+##SBATCH --constraint="e5000|e5-2670"
+#SBATCH --constraint=intel
+
+# set number of jobs in array
+#SBATCH --array=1
+
+# [optional] combine stdout and stderr streams into one output file
+
+# [optional] specify a different output file than the default JobName.out
+#SBATCH -o MySerialJob-%j.out
+#SBATCH -e MySerialJob-%j.out
+
+# set path to auto run file
+PATH_TO_AUTO_RUN=/users/pterman/run_select_dpf_brown.py
+
+# set CP
+CP="${1##*_cp}"
+
+# set the filename prefix
+Filename_prefix="${1%%_cp*}"
+EVT_DIRECTORY=/users/pterman/scratch/"${1}"/evt/
+RQ_DIRECTORY=/users/pterman/scratch/"${1}"/matfiles/
+
+
+# set other paths
+LUXcode_path=/users/pterman/LUXCode/Stable_Releases/DataProcessingStableReleases/v2.0/DataProcessing/
+dp_settings=/users/pterman/data_processing_settings_run03_oscar.xml
+
+
+# set the number of cores (NODES * ppn): e.g. NODES = 0-3 & ppn=4 =>
+NUM_CORES=1
+
+#######################################################
+# YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS POINT #
+#######################################################
+
+srun bash -l -c ''' 
+    cd $PWD
+    export ID=$((SLURM_TASKS_PER_NODE*(SLURM_ARRAY_TASK_ID-1)+SLURM_PROCID));
+    echo "Starting job $ID on $HOSTNAME (CPU $SLURM_PROCID)";
+                          
+    export PATH_TO_AUTO_RUN=`echo -e "$0"`                      
+    export Filename_prefix=`echo -e "$1"`
+    export EVT_DIRECTORY=`echo -e "$2"`
+    export RQ_DIRECTORY=`echo -e "$3"`
+    export LUXcode_path=`echo -e "$4"`
+    export dp_settings=`echo -e "$5"`
+    export CP=`echo -e "$6"`
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/users/jverbus/mysql/
+
+    python $PATH_TO_AUTO_RUN $Filename_prefix $EVT_DIRECTORY $RQ_DIRECTORY $LUXcode_path $dp_settings $CP
+''' "$PATH_TO_AUTO_RUN" "$Filename_prefix" "$EVT_DIRECTORY" "$RQ_DIRECTORY" "$LUXcode_path" "$dp_settings" "$CP" 

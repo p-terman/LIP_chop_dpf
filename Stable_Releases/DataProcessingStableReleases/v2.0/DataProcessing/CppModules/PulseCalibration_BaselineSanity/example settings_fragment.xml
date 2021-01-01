@@ -1,0 +1,16 @@
+<data_processing_settings>
+  <module>
+        <module_type>PulseCalibration</module_type>
+        <module_name>PulseCalibration_BaselineSanity</module_name>
+        <run_order>2</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseCalibration_BaselineSanity</relative_path>
+        <parameters>
+          <daq_saturation_threshold_mV>1800</daq_saturation_threshold_mV>
+          <pmt_saturation_2pct_threshold_mV>1600</pmt_saturation_2pct_threshold_mV>
+          <max_shift_mV>20</max_shift_mV>
+          <min_window_size_samples>20</min_window_size_samples>
+        </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+</data_processing_settings>

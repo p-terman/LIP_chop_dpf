@@ -1,0 +1,11 @@
+<data_processing_settings>
+  <module>
+        <module_type>PulseCalibration</module_type>
+        <module_name>PulseCalibration_MakeCvtFile</module_name>
+        <run_order>2</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseCalibration_MakeCvtFile</relative_path>
+        <parameters></parameters>
+        <required_iqs></required_iqs>
+    </module>
+</data_processing_settings>

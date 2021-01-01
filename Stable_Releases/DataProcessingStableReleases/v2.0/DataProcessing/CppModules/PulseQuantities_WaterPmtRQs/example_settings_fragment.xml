@@ -1,0 +1,14 @@
+<data_processing_settings>
+  <module>
+      <module_type>PulseQuantities</module_type>
+      <module_name>PulseQuantities_WaterPmtRQs</module_name>
+      <run_order>5</run_order>
+      <language>cpp</language>
+      <relative_path>CppModules/bin/PulseQuantities_WaterPmtRQs</relative_path>
+      <parameters>
+        <max_num_sumpods>8</max_num_sumpods>
+        <daq_saturation_mV>1800</daq_saturation_mV>
+      </parameters>
+      <required_iqs></required_iqs>
+  </module>
+</data_processing_settings>

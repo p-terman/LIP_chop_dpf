@@ -1,0 +1,11 @@
+<data_processing_settings>
+  <module>
+        <module_type>PulseFinder</module_type>
+        <module_name>PulseFinder_PODoverlap</module_name>
+        <run_order>4</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseFinder_PODoverlap</relative_path>
+        <parameters></parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+</data_processing_settings>

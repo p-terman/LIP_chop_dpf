@@ -1,0 +1,12 @@
+<module>
+        <module_type>PulseTiming</module_type>
+        <module_name>PulseTiming_BasicSet</module_name>
+        <run_order>5</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseTiming_BasicSet/PulseTiming_BasicSet.m</relative_path>
+        <parameters>
+            <edgeFraction>0.01</edgeFraction>
+            <txFraction>0.1</txFraction>
+           </parameters>
+        <required_iqs>pmt_gains:golden_gains:3.0</required_iqs>
+    </module>

@@ -1,0 +1,12 @@
+<module>
+  <module_type>PulseQuantities</module_type>
+  <module_name>PulseQuantities_PhotonCounting</module_name>
+  <run_order>5</run_order>
+  <language>matlab</language>
+  <relative_path>MatlabModules/PulseQuantities_PhotonCounting/PulseQuantities_PhotonCounting.m</relative_path>
+  <parameters>
+    <height_units>mV</height_units>
+    <threshold>1.4</threshold>
+  </parameters>
+  <required_iqs></required_iqs>
+</module>

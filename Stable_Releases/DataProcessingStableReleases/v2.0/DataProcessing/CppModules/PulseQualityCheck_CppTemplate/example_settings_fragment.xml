@@ -1,0 +1,15 @@
+<data_processing_settings>
+  <module>
+        <module_type>PulseQualityCheck</module_type>
+        <module_name>PulseQualityCheck_CppTemplate</module_name>
+        <run_order>5</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/PulseQualityCheck_CppTemplate</relative_path>
+        <parameters>
+                <negative_v_positive_area_yint>10.0</negative_v_positive_area_yint>	<negative_v_positive_area_slope>-1.0</negative_v_positive_area_slope>
+		<negative_area_thresh>-10</negative_area_thresh>
+		<maximum_pulse_samples>40000</maximum_pulse_samples>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+</data_processing_settings>

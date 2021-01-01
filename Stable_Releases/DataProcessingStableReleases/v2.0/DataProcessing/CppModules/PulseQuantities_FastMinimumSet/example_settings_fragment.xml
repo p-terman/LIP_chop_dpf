@@ -1,0 +1,27 @@
+<data_processing_settings>
+  <module>
+    <module_type>PulseQuantities</module_type>
+    <module_name>PulseQuantities_FastMinimumSet</module_name>
+    <run_order>6</run_order>
+    <language>cpp</language>
+    <relative_path>CppModules/bin/PulseQuantities_FastMinimumSet</relative_path>
+    <parameters>
+      <prompt_fraction>
+        <preBins_samples>2</preBins_samples>
+        <windowBins_samples>10</windowBins_samples>
+      </prompt_fraction>
+      <pseudo_prompt_fraction>
+        <max_n_samples>9</max_n_samples>
+      </pseudo_prompt_fraction>
+      <saturation_flags>
+        <daq_saturation_threshold_mV>1800</daq_saturation_threshold_mV>
+        <pmt_saturation_2pct_threshold_mV>1600</pmt_saturation_2pct_threshold_mV>
+      </saturation_flags>
+      <s2filter>
+        <s1window_samples>50</s1window_samples>
+        <s2window_samples>200</s2window_samples>
+      </s2filter>
+    </parameters>
+    <required_iqs>pmt_gains</required_iqs>
+  </module>
+</data_processing_settings>

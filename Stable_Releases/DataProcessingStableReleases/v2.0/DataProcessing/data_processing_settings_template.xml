@@ -1,0 +1,122 @@
+<!-- DO NOT USE THIS FILE FOR PROCESSING! THIS IS JUST A TEMPLATE. PLEASE DO NOT USE THIS FILE FOR ACTUAL DATA PROCESSING -->
+<!-- Please contact JRV or CHF before modifying this file -->
+<!-- Versioning
+
+    201211XX JRV - Created
+    20121116 CHF - Added module_name field. Added module entry for PulseQuantities_MinimumSet
+                   Minor edits. 
+
+ -->
+
+<data_processing_settings>
+    <!-- Global settings are defined in this section. -->
+    <global>
+        <notes> *** DO NOT USE THIS FILE FOR PROCESSING *** This is an example data_processing_settings.xml file.</notes>
+        <matlab_path>/export/apps/MATLAB/R2010b/bin/matlab</matlab_path>
+        <max_num_pulses>5</max_num_pulses>
+    </global>
+
+    <!-- Individual modules are defined below -->
+    <!-- Every module has the signature: (filename_evt, data_path_evt, filename_rq, data_path_rq, data_processing_settings) -->
+    
+    <module>
+        <module_type>InitializeRQFile</module_type>
+        <module_name>InitializeRQFile_Default</module_name>
+        <run_order>1</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/InitializeRQFile_Default.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseFinder</module_type>
+        <module_name>PulseFinder_Naive</module_name>
+        <run_order>3</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseFinder_Naive.m</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+
+    <module>
+        <module_type>PulseTiming</module_type>
+        <module_name>PulseTiming_PerusePeeksMatlab</module_name>
+        <run_order>4</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseTiming_PerusePeeksMatlab.m</relative_path>
+        <parameters>
+            <preBoxSamples>50</preBoxSamples>
+            <fullBoxSamples>200</fullBoxSamples>
+            <postBoxSamples>50</postBoxSamples>
+            <edgeFraction>0.01</edgeFraction>
+        </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseTiming</module_type>
+        <module_name>PulseTiming_PerusePeeks</module_name>
+        <run_order>3</run_order>
+        <language>matlab</language>
+        <relative_path>Trunk/DataProcessing/MatlabModules/PulseTiming_PerusePeeks.m</relative_path>
+        <parameters>
+            <preBoxSamples>50</preBoxSamples>
+            <fullBoxSamples>200</fullBoxSamples>
+            <postBoxSamples>50</postBoxSamples>
+            <edgeFraction>0.01</edgeFraction>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+   
+    <module>
+        <module_type>PulseQuantities</module_type>
+        <module_name>PulseQuantities_MinimumSet</module_name>
+        <run_order>5</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseQuantities_MinimumSet.m</relative_path>
+        <parameters>
+                <prompt_fraction>
+                    <preBins_samples>2</preBins_samples>
+                    <windowBins_samples>10</windowBins_samples>
+                </prompt_fraction>
+                <s2filter>
+                    <s1window_samples>50</s1window_samples>
+                    <s2window_samples>200</s2window_samples>
+                </s2filter>
+                <saturation_flags>
+                    <daq_saturation_threshold_mV>1800</daq_saturation_threshold_mV>
+                    <pmt_saturation_2pct_threshold_mV>1600</pmt_saturation_2pct_threshold_mV>
+                </saturation_flags>
+            </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>PulseQualityCheck</module_type>
+        <module_name>PulseQualityCheck_Basic</module_name>
+        <run_order>5</run_order>
+        <language>matlab</language>
+        <relative_path>MatlabModules/PulseQualityCheck_Basic.m</relative_path>
+        <parameters>
+                <negative_to_positive_area_ratio>0.2</negative_to_positive_area_ratio>
+        </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+    
+    <module>
+        <module_type>Livetime</module_type>
+        <module_name>Livetime_Default</module_name>
+        <run_order>8</run_order>
+        <language>root</language>
+        <relative_path>ROOTModules/bin/Livetime</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+</data_processing_settings>
+
+

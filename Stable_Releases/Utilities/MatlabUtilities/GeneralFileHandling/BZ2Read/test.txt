@@ -1,0 +1,270 @@
+#include "mex.h"
+#include <bzlib.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+bool mexBZ2File_open(mxArray*** p_plhs, const mxArray *prhs[]) {
+    /* This function opens the desired file, creating the FILE and BZFILE objects. 
+     * The filename is stored in prhs[1], and the pointers to the FILE and BZFILE
+     * objects created are stored in plhs[0] (along with current position, which is
+     * zero) to be passed to this function in future calls.  */
+
+    /* open file */
+    char filename[256];
+    mxGetString(prhs[1],filename,256);
+    FILE* rawfile;
+    rawfile = fopen(filename,"rb");
+    if (rawfile==NULL) {
+        mexWarnMsgTxt("cold not open file in BZ2Read");
+        return false;
+    }
+
+    /* open file as bzipped stream */
+    BZFILE* bzippedfile;
+    int* bzerror;
+    bzerror = (int*) mxMalloc(sizeof(int));
+    *bzerror = 0;
+    bzippedfile = BZ2_bzReadOpen(bzerror, rawfile, 0, 0, NULL, 0);
+
+    /* save file info for future calls */
+    unsigned long bzfid[5];
+    bzfid[0] = (unsigned long) rawfile;
+    bzfid[1] = (unsigned long) bzippedfile;
+    bzfid[2] = (unsigned long) *bzerror;
+    bzfid[3] = 0;
+    bzfid[4] = *((unsigned long*) mxGetData(prhs[2]));
+    const int dims[] = {1,5};
+    (*p_plhs)[0] = mxCreateNumericArray(2,dims,mxUINT32_CLASS,mxREAL);
+    memcpy(mxGetData((*p_plhs)[0]),bzfid,5*sizeof(unsigned long));
+    
+    /* free memory */
+    mxFree(bzerror);
+    return true;
+}
+
+bool mexBZ2File_setpos(mxArray*** p_plhs, const mxArray *prhs[]) {
+    /* This function reads through the BZFILE to the desired point.  Pointers to
+     * the relevant FILE and BZFILE instances are stored in prhs[1], along with the
+     * current file position, and the new file position is specified in prhs[2].
+     * plhs[0] returns pointers to the FILE and BZFILE instances (which will change,
+     * if the file must be rewound) along with the new file position, and plhs[1] returns
+     * the requested data as a uint8 vector.*/
+    
+    /* get file info */
+    unsigned long* bzfid;
+    FILE* rawfile;
+    BZFILE* bzippedfile;
+    int* bzerror;
+    bzerror = (int*) mxMalloc(sizeof(int));
+    unsigned long currentpos;
+    unsigned long maxbuffer_size;
+    bzfid = (unsigned long*) mxGetData(prhs[1]);
+    rawfile = (FILE*) bzfid[0];
+    bzippedfile = (BZFILE*) bzfid[1];
+    *bzerror = (int) bzfid[2];
+    currentpos = bzfid[3];
+    maxbuffer_size = bzfid[4];
+    
+    /* get desired position */
+    unsigned long newpos;
+    newpos = *((unsigned long*) mxGetData(prhs[2]));
+    
+    /* rewind file if necessary */
+    if (currentpos > newpos) {
+        BZ2_bzReadClose(bzerror, bzippedfile);
+        fseek(rawfile,0,0);
+        bzippedfile = BZ2_bzReadOpen(bzerror, rawfile, 0, 0, NULL, 0);
+        currentpos = 0;
+    }
+
+    /* read through file to desired point, in maximum steps of maxbuffer */
+    unsigned char* dummy_buffer;
+    dummy_buffer = (unsigned char*) mxMalloc(maxbuffer_size*sizeof(unsigned char));
+    unsigned long bytes_read;
+    
+    while ((newpos - currentpos) >= maxbuffer_size) {
+        bytes_read = BZ2_bzRead(bzerror, bzippedfile, dummy_buffer, maxbuffer_size);
+        currentpos = currentpos + bytes_read;
+        if (bytes_read != maxbuffer_size) {
+            mexWarnMsgTxt("failed to reach desired position in bzippedfile, could be end of file.");
+            newpos = currentpos;
+        }
+    }
+    
+    if (newpos > currentpos) {
+        bytes_read = BZ2_bzRead(bzerror, bzippedfile, dummy_buffer, newpos-currentpos);
+        currentpos = currentpos + bytes_read;
+        if (newpos != currentpos)
+            mexWarnMsgTxt("failed to reach desired position in bzippedfile, could be end of file.");
+    }
+    
+    /* save file info for future calls */
+    bzfid = (unsigned long*) mxMalloc(5*sizeof(unsigned long));
+    bzfid[0] = (unsigned long) rawfile;
+    bzfid[1] = (unsigned long) bzippedfile;
+    bzfid[2] = (unsigned long) *bzerror;
+    bzfid[3] = currentpos;
+    bzfid[4] = maxbuffer_size;
+    const int dims[] = {1,5};
+    (*p_plhs)[0] = mxCreateNumericArray(2,dims,mxUINT32_CLASS,mxREAL);
+    memcpy(mxGetData((*p_plhs)[0]),bzfid,5*sizeof(unsigned long));
+
+    /* free memory */
+    mxFree(bzerror);
+    mxFree(bzfid);
+    mxFree(dummy_buffer);
+    return true;
+}
+
+bool mexBZ2File_read(mxArray*** p_plhs, const mxArray *prhs[]) {
+    /* This function reads the desired number of bytes from the BZFILE.  Pointers
+     * to the relevant FILE and BZFILE are stored in prhs[1], along with the current
+     * file position, and the number of desired bytes is specified in prhs[2].
+     * plhs[0] returns pointers to the FILE and BZFILE instances along with the new
+     * file position.  */
+
+    
+    /* get file info */
+    unsigned long* bzfid;
+    FILE* rawfile;
+    BZFILE* bzippedfile;
+    int* bzerror;
+    bzerror = (int*) mxMalloc(sizeof(int));
+    unsigned long currentpos;
+    unsigned long maxbuffer_size;
+    bzfid = (unsigned long*) mxGetData(prhs[1]);
+    rawfile = (FILE*) bzfid[0];
+    bzippedfile = (BZFILE*) bzfid[1];
+    *bzerror = (int) bzfid[2];
+    currentpos = bzfid[3];
+    maxbuffer_size = bzfid[4];
+    
+    /* get numbytes to read */
+    unsigned long numbytes;
+    numbytes = *((unsigned long*) mxGetData(prhs[2]));
+    
+    /* read buffer */
+    unsigned char* buffer;
+    buffer = (unsigned char*) mxMalloc(numbytes * sizeof(unsigned char));
+    unsigned long bytes_read;
+    bytes_read = BZ2_bzRead(bzerror, bzippedfile, buffer, numbytes);
+    currentpos = currentpos + bytes_read;
+    if (bytes_read != numbytes)
+        mexWarnMsgTxt("failed to reach desired position in bzippedfile, could be end of file.");
+
+    /* save file info for future calls */
+    bzfid = (unsigned long*) mxMalloc(5*sizeof(unsigned long));
+    bzfid[0] = (unsigned long) rawfile;
+    bzfid[1] = (unsigned long) bzippedfile;
+    bzfid[2] = (unsigned long) *bzerror;
+    bzfid[3] = currentpos;
+    bzfid[4] = maxbuffer_size;
+    const int dims[] = {1,5};
+    (*p_plhs)[0] = mxCreateNumericArray(2,dims,mxUINT32_CLASS,mxREAL);
+    memcpy(mxGetData((*p_plhs)[0]),bzfid,5*sizeof(unsigned long));
+
+    /* save buffer */
+    const int bdims[] = {1,numbytes};
+    (*p_plhs)[1] = mxCreateNumericArray(2,bdims,mxUINT8_CLASS,mxREAL);
+    memcpy(mxGetData((*p_plhs)[1]),buffer,numbytes*sizeof(unsigned char));
+    
+    /* free memory */
+    mxFree(bzerror);
+    mxFree(bzfid);
+    mxFree(buffer);
+    return true;
+}
+
+bool mexBZ2File_close(mxArray*** p_plhs, const mxArray *prhs[]) {
+    /* This function closes the BZFILE and FILE, and returns zeros in plhs[0].  */
+    
+    /* get file info */
+    unsigned long* bzfid;
+    FILE* rawfile;
+    BZFILE* bzippedfile;
+    int* bzerror;
+    bzerror = (int*) mxMalloc(sizeof(int));
+    unsigned long currentpos;
+    unsigned long maxbuffer_size;
+    bzfid = (unsigned long*) mxGetData(prhs[1]);
+    rawfile = (FILE*) bzfid[0];
+    bzippedfile = (BZFILE*) bzfid[1];
+    *bzerror = (int) bzfid[2];
+    currentpos = bzfid[3];
+    maxbuffer_size = bzfid[4];
+
+    /* close BZFILE stream */
+    BZ2_bzReadClose(bzerror, bzippedfile);
+    
+    /* close FILE */
+    fclose(rawfile);
+    
+    /* save file info for future calls */
+    bzfid = (unsigned long*) mxMalloc(5*sizeof(unsigned long));
+    bzfid[0] = (unsigned long) rawfile;
+    bzfid[1] = (unsigned long) bzippedfile;
+    bzfid[2] = (unsigned long) *bzerror;
+    bzfid[3] = currentpos;
+    bzfid[4] = maxbuffer_size;
+    const int dims[] = {1,5};
+    (*p_plhs)[0] = mxCreateNumericArray(2,dims,mxUINT32_CLASS,mxREAL);
+    memcpy(mxGetData((*p_plhs)[0]),bzfid,5*sizeof(unsigned long));
+
+    /* free memory */
+    mxFree(bzerror);
+    mxFree(bzfid);
+    return true;
+}
+
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
+    /* This function checks the validity of the inputs, and calls the proper function
+     * to perform the desired operation.  */
+
+    /* check first argument is string */
+    if (nrhs<1 || !mxIsChar(prhs[0]))
+        mexWarnMsgTxt("Requires string for first argument -- valid values are 'open', 'setpos', 'read', and 'close'");
+    else {
+
+        /* check proper number of return arguments */
+        char op_mode[8];
+        mxGetString(prhs[0],op_mode,7);
+        if (!((nlhs==1 && strcmp(op_mode,"read")!=0) || (nlhs==2 && strcmp(op_mode,"read")==0)))
+            mexWarnMsgTxt("BZ2Read must return exactly one or two arguments, namely the information on the currently opened file, and the requested data in 'read' mode");
+        else {
+            if (strcmp(op_mode,"open")==0) {
+                if (nrhs<3 || !mxIsChar(prhs[1]) || !mxIsUint32(prhs[2]) || mxGetNumberOfElements(prhs[2])<1)
+                    mexWarnMsgTxt("'open' mode requires second argument to be filename (string), and third argument to be maxbuffer_size (uint32)");
+                else if (mexBZ2File_open(&plhs,prhs))
+                    return;
+            }
+            else if (strcmp(op_mode,"setpos")==0) {
+                if (nrhs<3 || !mxIsUint32(prhs[1]) || mxGetNumberOfElements(prhs[1])<5 || !mxIsUint32(prhs[2]) || mxGetNumberOfElements(prhs[2])<1)
+                    mexWarnMsgTxt("'setpos' mode requires second argument to be bz_fileID array, and third argument to be file_position (uint32)");
+                else if (mexBZ2File_setpos(&plhs,prhs))
+                    return;
+            }
+            else if (strcmp(op_mode,"read")==0) {
+                if (nrhs<3 || !mxIsUint32(prhs[1]) || mxGetNumberOfElements(prhs[1])<5 || !mxIsUint32(prhs[2]) || mxGetNumberOfElements(prhs[2])<1)
+                    mexWarnMsgTxt("'read' mode requires second argument to be bz_fileID array, and third argument to be number of bytes to be read (uint32)");
+                else if (mexBZ2File_read(&plhs,prhs))
+                    return;
+            }
+            else if (strcmp(op_mode,"close")==0) {
+                if (nrhs<2 || !mxIsUint32(prhs[1]) || mxGetNumberOfElements(prhs[1])<5)
+                    mexWarnMsgTxt("'close' mode requires second argument to be bz_fileID array");
+                else if (mexBZ2File_close(&plhs,prhs))
+                    return;
+            }
+            else
+                mexWarnMsgTxt("invalid first argument -- valid values are 'open', 'setpos', 'read', and 'close'");
+        }
+    }
+    /* if the code reaches this far, there was an error.  Set all return arguments to -1 */
+    double errnum = -1;
+    int n;
+    for (n=0;n<nlhs;n++) {
+        plhs[n] = mxCreateDoubleMatrix(1,1,mxREAL);
+        *mxGetPr(plhs[n])=errnum;
+    }
+}

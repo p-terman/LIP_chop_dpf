@@ -1,0 +1,42 @@
+<!-- Please contact JRV or CHF before modifying this file -->
+<!-- Versioning
+
+    201211XX JRV - Created
+    20121116 CHF - Added module_name field. Added module entry for PulseQuantities_MinimumSet
+                   Minor edits. 
+
+ -->
+
+<data_processing_settings>
+    <!-- Global settings are defined in this section. -->
+    <global>
+        <notes>Running first time example of dp.</notes>
+    </global>
+
+    <!-- Individual modules are defined below -->
+    <!-- Every module has the signature: (filename_evt, data_path_evt, filename_rq, data_path_rq, data_processing_settings) -->
+    
+    <module>
+        <module_type>Livetime</module_type>
+        <module_name>Livetime_Default</module_name>
+        <run_order>1</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/Livetime</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs>pmt_gains</required_iqs>
+    </module>
+    <module>
+        <module_type>Livetime</module_type>
+        <module_name>Livetime_Default</module_name>
+        <run_order>2</run_order>
+        <language>cpp</language>
+        <relative_path>CppModules/bin/Livetime</relative_path>
+        <parameters>
+        </parameters>
+        <required_iqs></required_iqs>
+    </module>
+
+</data_processing_settings>
+
+
